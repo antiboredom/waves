@@ -1,0 +1,37 @@
+<html>
+<head>
+  <script language="javascript" type="text/javascript" src="jquery.js"></script>
+  <script language="javascript" type="text/javascript" src="p5.js"></script>
+  <script language="javascript" type="text/javascript" src="sketch.js"></script>
+  <style type="text/css" media="all">
+    body {
+      font: 14px courier, monospace;
+      background: #ccc;
+    }
+    select {
+      margin-top: 20px;
+    }
+    label {
+      display: block;
+    }
+    .centered {
+      left: 50% !important;
+      margin-top: 10px;
+      margin-left: -300px;
+    }
+    input[type=range], select {
+      display:block;
+      width: 300px;
+    }
+  </style>
+</head>
+
+<body>
+  <span id="toggles">
+    <label><input type="checkbox" value="1" data-var="lines" checked="checked"> lines </label>
+    <label><input type="checkbox" value="1" data-var="redcircles" checked="checked"> red circles </label>
+    <label><input type="checkbox" value="1" data-var="whitecircle" checked="checked"> white circle </label>
+  </span>
+</body>
+</html>
+
