@@ -1,9 +1,10 @@
 var actors = [];
 var showExtra = {"whitecircle": true, "redcircles": true, "lines": true};
 var mySettings = {"trail": 300};
+var c;
 
 function setup() {
-  c = createGraphics(600, 600);
+  c = createGraphics($(document).innerWidth(), $(document).innerHeight());
   c.class("centered");
   rectMode(CENTER);
   for (var i = 0; i < 1; i++) {
@@ -23,7 +24,7 @@ function Actor(x, y) {
   this.loc = new PVector(x, y);
   this.r = height / 50;
   this.xWave = new Wave(cos, .05, width/4, width/2);
-  this.yWave = new Wave(sin, .05, width/4, width/2);
+  this.yWave = new Wave(sin, .05, height/4, height/2);
   this.sizeWave = new Wave(sin, .05, 10, 20);
   this.colorWave = new Wave(sin, .05, 255, 255/2);
 
@@ -115,7 +116,7 @@ function slide(label, obj, prop, minimum, maximum) {
   });
   //var $span = $('<span>' + label + '</span>');
   //$('body').append($span);
-  $('body').append($slider);
+  $('#controls').append($slider);
 }
 
 function chooseWave(obj){
@@ -129,7 +130,7 @@ function chooseWave(obj){
     var val = $(this).val();
     obj.wave = eval(val);
   });
-  $('body').append($select);
+  $('#controls').append($select);
 }
 
 function tri(x) {
@@ -142,5 +143,10 @@ $(document).ready(function(){
   });
   $('#toggles input').change(function(){
     showExtra[$(this).data("var")] = this.checked;
+  });
+  $(window).resize(function(){
+    c.width = $(window).innerWidth();
+    c.height = $(window).innerHeight();
+    $('canvas').css({width: c.width, height: c.height});
   });
 });

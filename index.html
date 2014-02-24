@@ -7,6 +7,7 @@
     body {
       font: 14px courier, monospace;
       background: #ccc;
+      color: #fff;
     }
     select {
       margin-top: 20px;
@@ -15,18 +16,27 @@
       display: block;
     }
     .centered {
-      left: 50% !important;
-      margin-top: 10px;
-      margin-left: -300px;
+      z-index: 0;
     }
     input[type=range], select {
       display:block;
-      width: 300px;
+      width: 200px;
+    }
+    #controls {
+      z-index: 1;
+      position: absolute;
+      background: rgba(255, 255, 255,.5);
+      padding: 10px;
+    }
+    h4 {
+      padding:0;
+      margin:0;
     }
   </style>
 </head>
 
 <body>
+<div id="controls">
   <div>
     <h4>Loops<br>
     by <a href="http://lav.io">Sam Lavigne</a></h4>
@@ -37,6 +47,7 @@
     <label><input type="checkbox" value="1" data-var="redcircles" checked="checked"> red circles </label>
     <label><input type="checkbox" value="1" data-var="whitecircle" checked="checked"> white circle </label>
   </span>
+</div>
 </body>
 </html>
 
