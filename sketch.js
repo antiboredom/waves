@@ -1,5 +1,6 @@
 var actors = [];
 var showExtra = {"whitecircle": true, "redcircles": true, "lines": true};
+var mySettings = {"trail": 300};
 
 function setup() {
   c = createGraphics(600, 600);
@@ -8,6 +9,7 @@ function setup() {
   for (var i = 0; i < 1; i++) {
     actors.push(new Actor(0, random(height)));
   }
+  slide("trail", mySettings, "trail", 0, 500);
 }
 
 function draw() {
@@ -19,7 +21,6 @@ function draw() {
 
 function Actor(x, y) {
   this.loc = new PVector(x, y);
-  this.vel = new PVector((-5, 5), random(-5, 5));
   this.r = height / 50;
   this.xWave = new Wave(cos, .05, width/4, width/2);
   this.yWave = new Wave(sin, .05, width/4, width/2);
@@ -29,28 +30,11 @@ function Actor(x, y) {
   waves = [this.xWave, this.yWave, this.sizeWave];
 
   for (var i in waves) {
-    slide("test", waves[i], "spd", 0, .1);
-    slide("test", waves[i], "amp", 0, width/2);
-    //var slider = $('<input type="range" min="0" max="100" data-id="'+i+'">');
-    //$('body').append(slider);
-    //slider.change(function(e) {
-      //waves[$(this).data('id')].spd = map($(this).val(), 0, 100, 0, .1);
-    //});
-
-    //var slider = $('<input type="range" min="0" max="100" data-id="'+i+'">');
-    //$('body').append(slider);
-    //slider.change(function(e) {
-      //waves[$(this).data('id')].amp = map($(this).val(), 0, 100, 0, width/2);
-    //});
-
+    chooseWave(waves[i]);
+    slide("spd", waves[i], "spd", 0, .5);
+    slide("amp", waves[i], "amp", 0, width);
   }
-  slide("test", this.sizeWave, "offset", 0, width/2);
-  //var slider = $('<input type="range" min="0" max="100" data-id="'+i+'">');
-  //$('body').append(slider);
-  //slider.change(function(e) {
-    //waves[$(this).data('id')].offset = map($(this).val(), 0, 100, 0, width/2);
-  //});
-
+  slide("offset", this.sizeWave, "offset", 0, width/2);
 }
 
 Actor.prototype.run = function() {
@@ -70,7 +54,7 @@ Actor.prototype.display = function() {
   //noStroke();
   if (showExtra["redcircles"]) {
     stroke(255);
-    for (var i = 1, m = 300; i < m; i +=1) {
+    for (var i = 1, m = mySettings.trail; i < m; i +=1) {
       //fill(255, 0, 0, map(i, 1, m, 255, 10));
       fill(255, 0, 0, map(i, 1, m, 255, 10));
       var sz = this.sizeWave.prev(i);
@@ -80,7 +64,7 @@ Actor.prototype.display = function() {
   if (showExtra["lines"]) {
     stroke(255);
     beginShape();
-    for (var i = 1, m = 300; i < m; i +=1) {
+    for (var i = 1, m = mySettings.trail; i < m; i +=1) {
       vertex(this.xWave.prev(-i), this.yWave.prev(-i));
     }
     endShape();
@@ -127,20 +111,36 @@ Wave.prototype.valAt = function(x) {
 
 
 function slide(label, obj, prop, minimum, maximum) {
-  this.obj = obj;
-  this.prop = prop;
-  this.minimum = minimum;
-  this.maximum = maximum;
-  this.label = label;
-  this.$slider = $('<input type="range" min="0" max="100">');
-  that = this;
-  this.$slider.change(function() {
-    console.log($(this).val());
+  var $slider = $('<input type="range" min="0" max="100" step=".5" value="' + map(obj[prop], minimum, maximum, 0, 100) + '">');
+  $slider.change(function() {
     obj[prop] = map($(this).val(), 0, 100, minimum, maximum);
-    console.log(obj[prop]);
   });
-  $('body').append(this.$slider);
+  //var $span = $('<span>' + label + '</span>');
+  //$('body').append($span);
+  $('body').append($slider);
 }
+
+function chooseWave(obj){
+  var $select = $('<select>');
+  var choices = ["sin", "cos", "tan"];
+  var selected = "";
+  if (obj.wave == cos) selected = "cos";
+  else if (obj.wave == sin) selected = "sin";
+  else if (obj.wave == tan) selected = "tan";
+  for (var i in choices) {
+    var $option = $('<option>', { value: choices[i], text: choices[i]}).appendTo($select);
+    if (selected == choices[i]) $option.attr('selected', 'selected');
+  }
+
+  $select.change(function(){
+    var val = $(this).val();
+    if (val == "tan") obj.wave = tan;
+    else if (val == "sin") obj.wave = sin;
+    else if (val == "cos") obj.wave = cos;
+  });
+  $('body').append($select);
+}
+
 
 // characteristics to control with wave functions:
 //  - position
