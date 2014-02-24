@@ -83,8 +83,6 @@ Actor.prototype.borders = function() {
 };
 
 
-////////////////////////
-
 function Wave(wave, spd, amp, offset) {
   this.wave = wave;
   this.spd = spd;
@@ -122,33 +120,21 @@ function slide(label, obj, prop, minimum, maximum) {
 
 function chooseWave(obj){
   var $select = $('<select>');
-  var choices = ["sin", "cos", "tan"];
-  var selected = "";
-  if (obj.wave == cos) selected = "cos";
-  else if (obj.wave == sin) selected = "sin";
-  else if (obj.wave == tan) selected = "tan";
+  var choices = ["sin", "cos", "tan", "tri"];
   for (var i in choices) {
     var $option = $('<option>', { value: choices[i], text: choices[i]}).appendTo($select);
-    if (selected == choices[i]) $option.attr('selected', 'selected');
+    if (eval(choices[i]) == obj.wave) $option.attr('selected', 'selected');
   }
-
   $select.change(function(){
     var val = $(this).val();
-    if (val == "tan") obj.wave = tan;
-    else if (val == "sin") obj.wave = sin;
-    else if (val == "cos") obj.wave = cos;
+    obj.wave = eval(val);
   });
   $('body').append($select);
 }
 
-
-// characteristics to control with wave functions:
-//  - position
-//  - size
-//  - color
-//  - speed
-//
-//
+function tri(x) {
+  return abs(x % 4 - 2) - 1;
+}
 
 $(document).ready(function(){
   $('#toggles input').each(function(){
