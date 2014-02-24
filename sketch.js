@@ -111,7 +111,7 @@ Wave.prototype.valAt = function(x) {
 
 
 function slide(label, obj, prop, minimum, maximum) {
-  var $slider = $('<input type="range" min="0" max="100" step=".5" value="' + map(obj[prop], minimum, maximum, 0, 100) + '">');
+  var $slider = $('<input type="range" min="0" max="100" step=".1" value="' + map(obj[prop], minimum, maximum, 0, 100) + '">');
   $slider.change(function() {
     obj[prop] = map($(this).val(), 0, 100, minimum, maximum);
   });
