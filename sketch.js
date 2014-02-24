@@ -31,7 +31,7 @@ function Actor(x, y) {
 
   for (var i in waves) {
     chooseWave(waves[i]);
-    slide("spd", waves[i], "spd", 0, .5);
+    slide("spd", waves[i], "spd", 0, .3);
     slide("amp", waves[i], "amp", 0, width);
   }
   slide("offset", this.sizeWave, "offset", 0, width/2);
