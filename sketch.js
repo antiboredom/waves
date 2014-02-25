@@ -44,19 +44,15 @@ Actor.prototype.run = function() {
 };
 
 Actor.prototype.update = function() {
-  //this.loc.add(this.vel);
   this.loc.x = this.xWave.update();
   this.loc.y = this.yWave.update();
   this.r = abs(this.sizeWave.update());
-  this.borders();
 };
 
 Actor.prototype.display = function() {
-  //noStroke();
   if (showExtra["redcircles"]) {
     stroke(255);
     for (var i = 1, m = mySettings.trail; i < m; i +=1) {
-      //fill(255, 0, 0, map(i, 1, m, 255, 10));
       fill(255, 0, 0, map(i, 1, m, 255, 10));
       var sz = this.sizeWave.prev(i);
       ellipse(this.xWave.prev(-i), this.yWave.prev(-i), sz, sz);
@@ -75,14 +71,6 @@ Actor.prototype.display = function() {
     ellipse(this.loc.x, this.loc.y, this.r, this.r);
   }
 };
-
-Actor.prototype.borders = function() {
-  if (this.loc.x < -this.r)          this.loc.x = width + this.r;
-  if (this.loc.x > width + this.r)   this.loc.x = -this.r;
-  if (this.loc.y < -this.r)          this.loc.y = height + this.r;
-  if (this.loc.y > height + this.r)  this.loc.y = -this.r;
-};
-
 
 function Wave(wave, spd, amp, offset) {
   this.wave = wave;
@@ -114,8 +102,6 @@ function slide(label, obj, prop, minimum, maximum) {
   $slider.change(function() {
     obj[prop] = map($(this).val(), 0, 100, minimum, maximum);
   });
-  //var $span = $('<span>' + label + '</span>');
-  //$('body').append($span);
   $('#controls').append($slider);
 }
 
